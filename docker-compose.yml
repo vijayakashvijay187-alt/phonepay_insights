@@ -1,0 +1,162 @@
+name: phonepe_insights
+
+x-pg: &pg
+  image: postgres:16-alpine
+  command: ["postgres", "-c", "shared_buffers=32MB", "-c", "max_connections=30"]
+  restart: "no"
+
+services:
+  aggregated_transaction:
+    <<: *pg
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
+      POSTGRES_DB: aggregated_transaction
+    ports: ["5601:5432"]
+    volumes:
+      - phonepe_aggregated_transaction:/var/lib/postgresql/data
+      - ./sql/aggregated_transaction.sql:/docker-entrypoint-initdb.d/01_init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U app -d aggregated_transaction"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  aggregated_user:
+    <<: *pg
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
+      POSTGRES_DB: aggregated_user
+    ports: ["5602:5432"]
+    volumes:
+      - phonepe_aggregated_user:/var/lib/postgresql/data
+      - ./sql/aggregated_user.sql:/docker-entrypoint-initdb.d/01_init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U app -d aggregated_user"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  aggregated_merchant:
+    <<: *pg
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
+      POSTGRES_DB: aggregated_merchant
+    ports: ["5603:5432"]
+    volumes:
+      - phonepe_aggregated_merchant:/var/lib/postgresql/data
+      - ./sql/aggregated_merchant.sql:/docker-entrypoint-initdb.d/01_init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U app -d aggregated_merchant"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  map_transaction:
+    <<: *pg
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
+      POSTGRES_DB: map_transaction
+    ports: ["5604:5432"]
+    volumes:
+      - phonepe_map_transaction:/var/lib/postgresql/data
+      - ./sql/map_transaction.sql:/docker-entrypoint-initdb.d/01_init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U app -d map_transaction"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  map_user:
+    <<: *pg
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
+      POSTGRES_DB: map_user
+    ports: ["5605:5432"]
+    volumes:
+      - phonepe_map_user:/var/lib/postgresql/data
+      - ./sql/map_user.sql:/docker-entrypoint-initdb.d/01_init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U app -d map_user"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  map_merchant:
+    <<: *pg
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
+      POSTGRES_DB: map_merchant
+    ports: ["5606:5432"]
+    volumes:
+      - phonepe_map_merchant:/var/lib/postgresql/data
+      - ./sql/map_merchant.sql:/docker-entrypoint-initdb.d/01_init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U app -d map_merchant"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  top_transaction:
+    <<: *pg
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
+      POSTGRES_DB: top_transaction
+    ports: ["5607:5432"]
+    volumes:
+      - phonepe_top_transaction:/var/lib/postgresql/data
+      - ./sql/top_transaction.sql:/docker-entrypoint-initdb.d/01_init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U app -d top_transaction"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  top_user:
+    <<: *pg
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
+      POSTGRES_DB: top_user
+    ports: ["5608:5432"]
+    volumes:
+      - phonepe_top_user:/var/lib/postgresql/data
+      - ./sql/top_user.sql:/docker-entrypoint-initdb.d/01_init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U app -d top_user"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  top_merchant:
+    <<: *pg
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
+      POSTGRES_DB: top_merchant
+    ports: ["5609:5432"]
+    volumes:
+      - phonepe_top_merchant:/var/lib/postgresql/data
+      - ./sql/top_merchant.sql:/docker-entrypoint-initdb.d/01_init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U app -d top_merchant"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+volumes:
+  phonepe_aggregated_transaction:
+  phonepe_aggregated_user:
+  phonepe_aggregated_merchant:
+  phonepe_map_transaction:
+  phonepe_map_user:
+  phonepe_map_merchant:
+  phonepe_top_transaction:
+  phonepe_top_user:
+  phonepe_top_merchant:

@@ -1,0 +1,1 @@
+{"success":true,"code":"SUCCESS","data":{"states":null,"districts":[{"entityName":"south andaman district","metric":{"type":"TOTAL","count":225909}},{"entityName":"north and middle andaman district","metric":{"type":"TOTAL","count":35624}},{"entityName":"nicobar district","metric":{"type":"TOTAL","count":10472}}]},"responseTimestamp":1785254901351}
